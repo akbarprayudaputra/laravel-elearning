@@ -9,9 +9,21 @@ use Illuminate\Support\Facades\Hash;
 
 class UserServiceImpl implements UserService
 {
-    public function register(string $username, string $password): bool
+    public function register(array $data): User
     {
-        return true;
+        if (User::where("email", $data["email"])->first() !== null) {
+            throw new HttpResponseException(response([
+                "errors" => [
+                    "email" => "Email already exists",
+                ]
+            ], 400));
+        }
+
+        $user = new User($data);
+        $user->password = Hash::make($data["password"]);
+        $user->save();
+
+        return $user;
     }
 
     public function login(string $email, string $password): User

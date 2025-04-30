@@ -30,19 +30,10 @@ class UserController extends Controller
     {
         $data = $request->validated();
 
-        if (User::where("email", $data["email"])->first() !== null) {
-            throw new HttpResponseException(response([
-                "errors" => [
-                    "email" => "Email already exists",
-                ]
-            ], 400));
-        }
+        $result = $this->userService->register($data);
 
-        $user = new User($data);
-        $user->password = Hash::make($data["password"]);
-        $user->save();
-
-        return (new UserResource($user))->response()->setStatusCode(201);
+        $user = new UserResource($result);
+        return Json::success("success", "Register Successful", $user, 201);
     }
 
     public function logout(Request $request)
