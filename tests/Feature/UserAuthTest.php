@@ -40,7 +40,7 @@ class UserAuthTest extends TestCase
 
         // Pastikan respons sukses
         $response->assertStatus(200);
-        $response->assertJsonStructure(['token', 'user']);
+        $response->assertJsonStructure(["data", "status"]);
     }
 
     public function test_login_fails_with_wrong_credentials()

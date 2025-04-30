@@ -2,40 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Json;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __construct(protected UserService $userService) {}
+
     public function login(UserLoginRequest $request)
     {
         $data = $request->validated();
 
-        $user = User::where("email", $data["email"])->first();
+        $result = $this->userService->login($data["email"], $data["password"]);
 
-        if (!$user || !Hash::check($data["password"], $user->password)) {
-            throw new HttpResponseException(response([
-                "errors" => [
-                    "Email or Password is incorrect",
-                ]
-            ], 401));
-        }
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            "token" => $token,
-            "user" => new UserResource($user),
-            "meta" => [
-                "generated_at" => now()->toDateTimeString(),
-            ]
-
-        ]);
+        $user = new UserResource($result);
+        return Json::success("success", "Login Successful", $user, 200);
     }
 
     public function register(UserRegisterRequest $request)
