@@ -5,6 +5,7 @@ namespace App\Services\Implementation;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 
 class UserServiceImpl implements UserService
@@ -45,23 +46,32 @@ class UserServiceImpl implements UserService
         return $user;
     }
 
-    public function logout(): bool
+    public function logout($request): bool
     {
+        $request->user()->tokens()->delete();
+
         return true;
     }
 
-    public function getInstructors(): array
+    public function getInstructors(): Collection
     {
-        return [];
+        return User::where("role", "instructor")->get();
+
+        // return $instructurers;
     }
 
-    public function getAdmins(): array
+    public function getAdmins(): Collection
     {
-        return [];
+        return User::where("role", "admin")->get();
     }
 
-    public function getStudents(): array
+    public function getStudents(): Collection
     {
-        return [];
+        return User::where("role", "student")->get();
+    }
+
+    public function getUsers(): Collection
+    {
+        return User::all();
     }
 }
