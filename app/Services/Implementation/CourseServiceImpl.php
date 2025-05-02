@@ -25,7 +25,7 @@ class CourseServiceImpl implements CourseService
 
     public function getAll(): Collection
     {
-        $courses = Course::all();
+        $courses = Course::with("instructor")->get();
         return $courses;
     }
 

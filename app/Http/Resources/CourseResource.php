@@ -21,7 +21,7 @@ class CourseResource extends JsonResource
             "instructor_id" => $this->instructor_id,
             "category" => $this->category,
             "price" => $this->price,
-
+            "instructor" => new UserResource($this->whenLoaded("instructor")),
         ];
     }
 }

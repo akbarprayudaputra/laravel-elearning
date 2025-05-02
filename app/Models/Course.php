@@ -15,6 +15,6 @@ class Course extends Model
     // Relasi: Setiap kursus dimiliki oleh satu instruktur
     public function instructor()
     {
-        return $this->belongsTo(Course::class, 'instructor_id', 'id');
+        return $this->belongsTo(User::class, 'instructor_id', 'id');
     }
 }
