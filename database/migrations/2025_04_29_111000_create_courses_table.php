@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();  // Primary Key
-            $table->string('title');  // Judul kursus
+            $table->string('title')->unique();  // Judul kursus
             $table->text('description');  // Deskripsi kursus
             $table->foreignId('instructor_id')->constrained('users')->onDelete('cascade');  // Relasi ke tabel Users (instruktur)
             $table->string('category');  // Kategori kursus

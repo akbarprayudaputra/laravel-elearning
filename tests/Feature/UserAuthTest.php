@@ -15,12 +15,14 @@ class UserAuthTest extends TestCase
         $this->post("/api/register", [
             "name" => "John Doe",
             "email" => "YhN9h@example.com",
-            "password" => "password"
+            "password" => "password",
+            "role" => "student"
         ])->assertStatus(201)
             ->assertJson([
                 "data" => [
                     "name" => "John Doe",
-                    "email" => "YhN9h@example.com"
+                    "email" => "YhN9h@example.com",
+                    "role" => "student"
                 ]
             ]);
     }
