@@ -50,7 +50,7 @@ class CourseServiceImpl implements CourseService
      */
     public function getById(int $id): Course
     {
-        $course = Course::findOrFail($id);
+        $course = Course::with("instructor")->findOrFail($id);
         return $course;
     }
 
