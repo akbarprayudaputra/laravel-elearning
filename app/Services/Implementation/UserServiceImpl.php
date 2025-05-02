@@ -74,4 +74,10 @@ class UserServiceImpl implements UserService
     {
         return User::all();
     }
+
+    public function getUserById(int $id): User
+    {
+        $user = User::findOrFail($id);
+        return $user;
+    }
 }

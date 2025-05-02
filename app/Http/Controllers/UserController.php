@@ -64,4 +64,14 @@ class UserController extends Controller
         $admins = $this->userService->getAdmins();
         return Json::success("success", "Success", UserResource::collection($admins), 200);
     }
+
+    public function getUserById(int $id): JsonResponse
+    {
+        try {
+            $user = $this->userService->getUserById($id);
+            return Json::success("success", "User Found", new UserResource($user), 200);
+        } catch (\Throwable $th) {
+            return Json::error("error", "User Not Found", 404);
+        }
+    }
 }

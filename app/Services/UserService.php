@@ -14,4 +14,5 @@ interface UserService
     public function getAdmins(): Collection;
     public function getStudents(): Collection;
     public function getUsers(): Collection;
+    public function getUserById(int $id): User;
 }

@@ -10,6 +10,7 @@ Route::delete("/logout", [UserController::class, "logout"])->middleware("auth:sa
 
 Route::prefix("user")->middleware("auth:sanctum")->group(function () {
     Route::get("/", [UserController::class, "getAllUsers"]);
+    Route::get("/{id}", [UserController::class, "getUserById"]);
     Route::get("/instructurers", [UserController::class, "getAllInstruturers"]);
     Route::get("/admins", [UserController::class, "getAllAdmins"]);
     Route::get("/students", [UserController::class, "getAllStudents"]);
